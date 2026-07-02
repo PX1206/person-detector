@@ -1,0 +1,21 @@
+services:
+  person-detector:
+    image: person-detector:${IMAGE_TAG:-0.1.0}
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: person-detector
+    restart: unless-stopped
+    ports:
+      # 仅本机访问，由 web-report-controller 调用
+      - "127.0.0.1:8090:8090"
+    env_file:
+      - .env
+    volumes:
+      # 模型与代码挂载到宿主机：改 Python 代码后 restart 即可，无需 rebuild
+      - ./models:/app/models
+      - ./app:/app/app
+      - ./scripts:/app/scripts
+    # 按服务器 CPU 调整；4 核示例（非 Swarm 模式用 cpus/mem_limit）
+    cpus: 4
+    mem_limit: 4g

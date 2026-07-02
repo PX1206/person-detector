@@ -1,0 +1,11 @@
+.venv
+__pycache__
+*.py[cod]
+*.pyo
+.git
+.gitignore
+.env
+*.md
+deploy/
+models/*
+!models/.gitkeep

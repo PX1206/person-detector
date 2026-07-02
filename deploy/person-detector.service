@@ -1,0 +1,19 @@
+[Unit]
+Description=Person Detector Service (YOLO11s)
+After=network.target
+
+[Service]
+Type=simple
+User=www
+Group=www
+WorkingDirectory=/data/person-detector
+EnvironmentFile=/data/person-detector/.env
+Environment=OMP_NUM_THREADS=4
+Environment=MKL_NUM_THREADS=4
+ExecStart=/data/person-detector/.venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8090 --workers 1
+Restart=always
+RestartSec=5
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target
